@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stone paper scissor</title>
+    <style>
+      body{
+        text-align: center;
+        align-items: center;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        background-color:antiquewhite;
+      }
+        .name{
+            text-align: center;
+        }
+        .button{
+            text-align: center;
+            height:100px;
+            width: 100px;
+            border: none;
+            margin: 20px;
+             background-color: rgb(138, 224, 149);
+               border-radius: 35px;
+          
+             
+
+
+            
+        }
+        .press{
+            text-align: center;
+        }
+        h1{
+          text-align: center;
+        }
+        .image-button{
+          height:75px;
+            border-radius: 25px;
+          
+          
+        }
+        .buttoon-reset{
+          align-content: center;
+
+        
+           text-align: center;
+
+        }
+        .emoji {
+  height: 200px;
+  width: 200px;
+  font-size: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+}
+
+    </style>
+</head>
+<body>
+    
+    <h1 class="name">STONE PAPER SCISSOR GAME</h1>
+   
+    
+   
+   
+    <div class="press"> 
+         <button class="button" onclick="
+        computerChoice();
+        
+
+         
+        finalresult= getresult(`stone`,computerchoice);
+          showresult('stone💎',computerchoice,finalresult);
+          showemojis(finalresult);
+       
+         "
+         >
+        <img src="stone new.webp" class="image-button" alt="paper">
+    </button>
+
+    <button class="button" onclick="
+    
+        computerChoice();
+
+       finalresult=  getresult(`paper`,computerchoice);
+        showresult('paper✉️',computerchoice,finalresult);
+        showemojis(finalresult);
+         
+         "
+        
+          >
+        <img src="paper new.jpg" class="image-button" alt="paper">
+    </button>
+    <button class="button" onclick="
+       computerChoice();
+
+       finalresult= getresult(`scissor`,computerchoice);
+        showresult('scissor✂️',computerchoice,finalresult);
+        showemojis(finalresult);
+         
+         
+">
+        <img src="scissor new.jpg" class="image-button" alt="paper">
+    </button>
+     <div class="emoji"></div>
+    
+     
+    </div>
+     <h1 class="user"></h1>
+      <h1 class="com"></h1>
+       <h1 class="result"></h1>
+       
+    <h1 class="score"></h1>
+     <button class="buttoon-reset" onclick="localStorage.clear();
+     clearall();
+     
+       
+         "
+         >
+        Reset
+    </button>
+    
+     
+    
+  <script>
+    const emojiMap = {
+      stone: "💎",
+      paper: "📜",
+      scissor: "✂️"
+    };
+    let scoreStr=localStorage.getItem('score');
+
+    let score=JSON.parse(scoreStr) || {
+      win:0,
+      tie:0,
+      lose:0,
+
+    };
+    let computerchoice=``;
+    let result='';
+
+    let finalresult='';
+
+    function computerChoice(){ 
+      let randomnum=Math.random()*3;
+        
+         if(randomnum>0 && randomnum<=1 ){
+           computerchoice=`stone`+`💎`;
+         }else if(randomnum>1 && randomnum<=2 ){
+              computerchoice=`paper`+`📜`;
+         }else{
+            computerchoice=`scissor`+`✂️`;
+         }
+         
+
+    }
+   
+    function getresult(usermove,computermove){
+      if((usermove===`stone` && computermove===`stone`+`💎`) || (usermove===`paper` && computermove===`paper`+`📜`)||(usermove===`scissor` && computermove===`scissor`+`✂️`)){
+        score.tie++;
+         return 'tie';
+      }else if((usermove===`stone` && computermove===`scissor`+`✂️`) || (usermove===`paper` && computermove===`stone`+`💎`)||(usermove===`scissor` && computermove===`paper`+`📜`)){
+        score.win++;
+          return 'win';
+         
+      }else{
+        score.lose++;
+        return 'lose';
+      }
+    }
+    function showresult(usermove,computerchoice,finalresult){
+      localStorage.setItem('score',JSON.stringify(score));
+
+    document.querySelector('.user').innerText=`you have choosen ${usermove}`;
+     document.querySelector('.com').innerText=`computer have choosen ${computerchoice}`;
+    document.querySelector('.result').innerText=`you ${finalresult} the match`;
+    
+    
+   document.querySelector('.score').innerText=`NO. of Matches
+   Score: Wins🥳= ${score.win}, Ties🙂 = ${score.tie}, Losses🥺 = ${score.lose}`;
+    }
+     function showemojis(finalresult){
+      if(finalresult===`win`){
+       document.querySelector('.emoji').innerText=`🏆`;
+      }else if(finalresult===`lose`){
+         document.querySelector('.emoji').innerText=`😭`;
+
+      }else{
+         document.querySelector('.emoji').innerText=`🙂`;
+        
+      }
+
+
+
+      
+    }
+    function clearall(){
+      score.win=0;
+        score.lose=0;
+      
+          score.tie=0;
+          localStorage.removeItem('score');
+          document.querySelector('.score').innerText=`Score: Wins = ${score.win}, Ties = ${score.tie}, Losses = ${score.lose}`;
+            document.querySelector('.user').innerText = '';
+  document.querySelector('.com').innerText = '';
+  document.querySelectorAll('.result').forEach(el => el.innerText = '');
+  document.querySelector('.emoji').innerText = '';
+
+
+
+    }
+
+          
+
+      
+
+
+    
+  
+    
+  </script>
+</body>
+</html>
